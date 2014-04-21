@@ -1,0 +1,36 @@
+{
+  "name": "keyring",
+  "version": "0.0.0",
+  "description": "Never push your passwords and API keys to version control again.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mmarcon/node-keyring.git"
+  },
+  "keywords": [
+    "keyring",
+    "password",
+    "credentials",
+    "keyring"
+  ],
+  "author": "Massimiliano Marcon (me@marcon.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mmarcon/node-keyring/issues"
+  },
+  "homepage": "https://github.com/mmarcon/node-keyring",
+  "devDependencies": {
+    "gulp": "^3.6.0",
+    "gulp-jshint": "^1.5.3",
+    "jshint-stylish": "^0.1.5",
+    "gulp-nodemon": "^1.0.2",
+    "tap": "^0.4.8"
+  },
+  "dependencies": {
+    "winston": "^0.7.3",
+    "minimist": "0.0.8"
+  }
+}
