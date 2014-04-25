@@ -8,3 +8,4 @@ CONTAINER.constants     = require('./lib/constants');
 CONTAINER.uutils        = require('./lib/usefulutils')(CONTAINER);
 CONTAINER.init          = require('./lib/init')(CONTAINER);
 CONTAINER.logger        = require('./lib/logger')(CONTAINER);
+CONTAINER.api           = require('./lib/api')(CONTAINER).instance();
