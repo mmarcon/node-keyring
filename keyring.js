@@ -1,11 +1,11 @@
 /** DEPENDENCIES **/
-var CONTAINER = {};
+var KEYRING = {};
 
-CONTAINER.fs            = require('fs');
-CONTAINER.path          = require('path');
-CONTAINER.winston       = require('winston');
-CONTAINER.constants     = require('./lib/constants');
-CONTAINER.uutils        = require('./lib/usefulutils')(CONTAINER);
-CONTAINER.init          = require('./lib/init')(CONTAINER);
-CONTAINER.logger        = require('./lib/logger')(CONTAINER);
-CONTAINER.api           = require('./lib/api')(CONTAINER).instance();
+KEYRING.fs            = require('fs');
+KEYRING.path          = require('path');
+KEYRING.winston       = require('winston');
+KEYRING.constants     = require('./lib/constants');
+KEYRING.uutils        = require('./lib/usefulutils')(KEYRING);
+KEYRING.init          = require('./lib/init')(KEYRING);
+KEYRING.logger        = require('./lib/logger')(KEYRING);
+KEYRING.api           = require('./lib/api')(KEYRING).instance();
