@@ -11,5 +11,13 @@
     "trailing": true,
     "undef": true,
     "unused": true,
-    "white": false
+    "white": false,
+    "globals": {
+        "jasmine": true,
+        "describe": true,
+        "it": true,
+        "expect": true,
+        "beforeEach": true,
+        "spyOn": true
+    }
 }
