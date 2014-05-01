@@ -8,13 +8,13 @@ var API = require('../lib/api')(TEST_ENV);
 
 describe('API', function(){
     beforeEach(function(){
+        TEST_ENV.fs.readFileSync.andReturn(NON_EMPTY_DB_STRING);
         this.api = new API();
     });
     describe('load', function(){
         it('loads synchronously', function(){
             var api = this.api;
 
-            TEST_ENV.fs.readFileSync.andReturn(NON_EMPTY_DB_STRING);
             api.load();
             expect(TEST_ENV.fs.readFileSync).toHaveBeenCalledWith('db.json', jasmine.any(Object));
             expect(api.db).toEqual(NON_EMPTY_DB);
@@ -53,7 +53,7 @@ describe('API', function(){
     describe('save', function(){
         beforeEach(function(){
             this.api = new API();
-            this.api.db = NON_EMPTY_DB;
+            this.api.load();
         });
 
         it('saves synchronously', function(){
@@ -64,6 +64,37 @@ describe('API', function(){
         it('saves asynchronously', function(){
             this.api.save(function(){});
             expect(TEST_ENV.fs.writeFile).toHaveBeenCalledWith('db.json', NON_EMPTY_DB_STRING, jasmine.any(Object), jasmine.any(Function));
+        });
+    });
+    describe('store', function(){
+        beforeEach(function(){
+            this.api = new API();
+            this.api.load();
+        });
+        it('stores a value under a new path', function(){
+            var api = this.api;
+            api.store('a.b.c', 'monkey');
+            expect(api.db.a.b.c).toEqual('monkey');
+        });
+        it('stores a value under an existing path', function(){
+            var api = this.api;
+            api.store('foo.bar.key2', 'monkey');
+            expect(api.db.foo.bar.key2).toEqual('monkey');
+            expect(api.db.foo.bar.key).toEqual('123456');
+        });
+    });
+    describe('retrieve', function(){
+        beforeEach(function(){
+            this.api = new API();
+            this.api.load();
+        });
+        it('retrieves a value under an existing path', function(){
+            var api = this.api;
+            expect(api.retrieve('foo.bar.key')).toEqual('123456');
+        });
+        it('attemps to retrieve a value under a non-existing path', function(){
+            var api = this.api;
+            expect(api.retrieve('a.b.c')).toBeNull();
         });
     });
 });
