@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+
+var keyring = require('../keyring'),
+    minimist = require('minimist');
+
+var argv = minimist(process.argv.slice(2), {
+    alias: {
+        'help': ['h']
+    },
+    boolean: ['help', 'e']
+});
+
+if(argv.help) {
+    var help = '';
+    help += 'keyring: Never push your passwords and API keys to version control again.\n\n';
+    help += 'The following options are available:\n';
+    help += '\t--help, -h: shows this help page\n';
+    help += '\tstore: stores a value into the database under the passed key\n';
+    help += '\tretrieve: retrieve a value from the database give a key\n';
+    help += '\n';
+    help += 'Examples:\n';
+    help += '- Store a value 123abc in plain text for a key foo.bar\n';
+    help += '  keyring store foo.bar 123abc\n';
+    help += '- Store a value 123abc encrypted for a key foo.bar\n';
+    help += '  keyring store foo.bar 123abc -e -p somePassword\n';
+    help += '- Retrieve the value for a key foo.bar\n';
+    help += '  keyring retrieve foo.bar\n';
+    help += '- Retrieve the value for a key foo.bar and decrypt it\n';
+    help += '  keyring retrieve foo.bar -d -p somePassword\n';
+    return console.log(help);
+}
+
+if(argv._[0] === 'store') {
+    return store(argv);
+} else if(argv._[0] === 'retrieve') {
+    return console.log(retrieve(argv));
+}
+
+function store(args) {
+    var api = keyring.instance(args.p);
+    api.load();
+    if(args.e) {
+        api.storeEncrypted(args.k, args.v);
+    } else {
+        api.store(args.k, args.v);
+    }
+    api.save();
+}
+
+function retrieve(args) {
+    var api = keyring.instance(args.p);
+    api.load();
+    if(args.d) {
+        return api.retrieveEncrypted(args.k);
+    } else {
+        return api.retrieve(args.k, args.v);
+    }
+}

@@ -4,7 +4,7 @@
   "description": "Never push your passwords and API keys to version control again.",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -32,5 +32,6 @@
   "dependencies": {
     "winston": "^0.7.3",
     "minimist": "0.0.8"
-  }
+  },
+  "bin": { "keyring": "./bin/keyring" }
 }
