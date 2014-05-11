@@ -1,5 +1,6 @@
 var TEST_ENV = {
     fs: require('./fs'),
+    crypto: require('./crypto'),
     uutils: {
         keyringDatabase: jasmine.createSpy('keyringDatabase').andReturn('db.json')
     },

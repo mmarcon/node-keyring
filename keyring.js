@@ -3,6 +3,7 @@ var KEYRING = {};
 
 KEYRING.fs            = require('fs');
 KEYRING.path          = require('path');
+KEYRING.crypto        = require('crypto');
 KEYRING.winston       = require('winston');
 KEYRING.constants     = require('./lib/constants');
 KEYRING.json          = require('./lib/json');

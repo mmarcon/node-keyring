@@ -1,7 +1,7 @@
 var jutils = require('./utils/jasmineutils');
 var TEST_ENV = require('./mocks/testenv');
 
-var NON_EMPTY_DB = {foo: { bar: { key: '123456'}}};
+var NON_EMPTY_DB = {foo: { bar: { key: '123456', encryptedKey: 'encrypted:123456'}}};
 var NON_EMPTY_DB_STRING = JSON.stringify(NON_EMPTY_DB, null, 4);
 
 var API = require('../lib/api')(TEST_ENV);
@@ -83,6 +83,25 @@ describe('API', function(){
             expect(api.db.foo.bar.key).toEqual('123456');
         });
     });
+    describe('store encrypted', function(){
+        beforeEach(function(){
+            this.api = new API('somekey');
+            this.api.load();
+        });
+        it('stores an encrypted value under a new path', function(){
+            var api = this.api;
+            api.storeEncrypted('a.b.c', 'monkey');
+            expect(TEST_ENV.crypto.createCipher).toHaveBeenCalledWith(API.ALGORITHM, 'somekey');
+            expect(api.db.a.b.c).toEqual('encrypted:monkey');
+        });
+        it('stores an encrypted value under an existing path', function(){
+            var api = this.api;
+            api.storeEncrypted('foo.bar.key2', 'monkey');
+            expect(TEST_ENV.crypto.createCipher).toHaveBeenCalledWith(API.ALGORITHM, 'somekey');
+            expect(api.db.foo.bar.key2).toEqual('encrypted:monkey');
+            expect(api.db.foo.bar.key).toEqual('123456');
+        });
+    });
     describe('retrieve', function(){
         beforeEach(function(){
             this.api = new API();
@@ -95,6 +114,20 @@ describe('API', function(){
         it('attemps to retrieve a value under a non-existing path', function(){
             var api = this.api;
             expect(api.retrieve('a.b.c')).toBeNull();
+        });
+    });
+    describe('retrieve encrypted', function(){
+        beforeEach(function(){
+            this.api = new API('somekey');
+            this.api.load();
+        });
+        it('retrieves an encrypted value under an existing path', function(){
+            var api = this.api;
+            expect(api.retrieveEncrypted('foo.bar.encryptedKey')).toEqual('123456');
+        });
+        it('attemps to retrieve an encrypted value under a non-existing path', function(){
+            var api = this.api;
+            expect(api.retrieveEncrypted('a.b.c')).toBeNull();
         });
     });
 });
