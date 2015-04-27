@@ -1,6 +1,6 @@
 {
   "name": "keyring",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Never push your passwords and API keys to version control again.",
   "main": "keyring.js",
   "scripts": {

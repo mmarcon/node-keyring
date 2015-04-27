@@ -1,0 +1,8 @@
+{
+    "foursquare": {
+        "myapp": {
+            "clientId": "theclientId",
+            "clientSecret": "theclientSecret"
+        }
+    }
+}

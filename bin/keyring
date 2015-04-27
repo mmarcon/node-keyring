@@ -27,6 +27,8 @@ if(argv.help) {
     help += '  keyring retrieve foo.bar\n';
     help += '- Retrieve the value for a key foo.bar and decrypt it\n';
     help += '  keyring retrieve foo.bar -d -p somePassword\n';
+    help += '- Pass the file used for storage\n';
+    help += '  keyring retrieve foo.bar -f db.json';
     return console.log(help);
 }
 
@@ -37,7 +39,7 @@ if(argv._[0] === 'store') {
 }
 
 function store(args) {
-    var api = keyring.instance(args.p);
+    var api = keyring.instance(args.p, args.f);
     api.load();
     if(args.e) {
         api.storeEncrypted(args.k, args.v);
@@ -48,11 +50,11 @@ function store(args) {
 }
 
 function retrieve(args) {
-    var api = keyring.instance(args.p);
+    var api = keyring.instance(args.p, args.f);
     api.load();
     if(args.d) {
         return api.retrieveEncrypted(args.k);
     } else {
-        return api.retrieve(args.k, args.v);
+        return api.retrieve(args.k);
     }
 }
